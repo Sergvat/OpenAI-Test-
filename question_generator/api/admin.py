@@ -16,7 +16,7 @@ class QuestionAdmin(admin.ModelAdmin):
 
 @admin.register(Answer)
 class AnswerAdmin(admin.ModelAdmin):
-    list_display = ('answer', 'question__text')
+    list_display = ('answer', 'question')
     readonly_fields = ('answer', 'question')
 
 

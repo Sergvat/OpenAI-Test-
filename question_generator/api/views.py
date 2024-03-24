@@ -3,9 +3,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 
-from question_generator.api.core.question import generate_question
-from question_generator.api.core.answer import rate_candidate_answer, save_answer_rating
-from .serializers import (
+from api.core.question import generate_question
+from api.core.answer import rate_candidate_answer, save_answer_rating
+from api.serializer import (
     GenerateQuestionInputSerializer, GenerateQuestionOutputSerializer,
     RateCandidateAnswerInputSerializer, RateCandidateAnswerOutputSerializer
 )

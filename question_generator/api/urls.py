@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import generate_question_controller, rate_candidate_answer_controller
+from api.views import generate_question_controller, rate_candidate_answer_controller
 
 app_name = 'api'
 
