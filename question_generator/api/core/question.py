@@ -49,7 +49,10 @@ def save_generated_question(question: str, vacancy_id: int) -> None:
     Сохраняет сгенерированный вопрос в базе данных.
     """
     try:
-        generated_question = Question(text=question, vacancy=vacancy_id)
+        vacancy = Vacancy.objects.get(id=vacancy_id)
+        generated_question = Question(text=question, vacancy=vacancy)
         generated_question.save()
+    except Vacancy.DoesNotExist:
+        logging.error(f'Vacancy with id {vacancy_id} does not exist')
     except Exception as e:
         logging.error(f'Error saving generated question: {str(e)}')

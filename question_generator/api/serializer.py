@@ -1,12 +1,16 @@
 from rest_framework import serializers
 
-from .models import Question, Result
+from .models import Vacancy, Question, Result
 
 
-class GenerateQuestionInputSerializer(serializers.ModelSerializer):
+class GenerateQuestionInputSerializer(serializers.Serializer):
+    vacancy_id = serializers.IntegerField()
 
-    class Meta:
-        fields = ('vacancy_id',)
+# class GenerateQuestionInputSerializer(serializers.ModelSerializer):
+#
+#     class Meta:
+#         model = Vacancy
+#         fields = ('vacancy_id',)
 
 
 class GenerateQuestionOutputSerializer(serializers.ModelSerializer):
