@@ -1,8 +1,8 @@
 import logging
 
-from api.models import Question, Vacancy
 from openai import OpenAI
 
+from api.models import Question, Vacancy
 from question_generator.settings import openai_api_key
 
 client = OpenAI(api_key=openai_api_key)

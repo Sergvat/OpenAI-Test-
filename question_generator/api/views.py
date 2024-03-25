@@ -1,12 +1,13 @@
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 from api.core.answer import rate_candidate_answer
 from api.core.question import generate_question
 from api.serializer import (GenerateQuestionInputSerializer,
                             GenerateQuestionOutputSerializer,
                             RateCandidateAnswerInputSerializer,
                             RateCandidateAnswerOutputSerializer)
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 
 
 @api_view(['POST'])
