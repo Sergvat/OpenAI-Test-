@@ -35,10 +35,10 @@ def rate_candidate_answer_controller(request) -> Response:
     if not serializer.is_valid():
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    answer_id = serializer.validated_data['answer_id']
+    answer_text = serializer.validated_data['answer_text']
     question_id = serializer.validated_data['question_id']
 
-    result = rate_candidate_answer(answer_id, question_id)
+    result = rate_candidate_answer(answer_text, question_id)
     rating_data = {'result': result}
     serializer = RateCandidateAnswerOutputSerializer(data=rating_data)
     if not serializer.is_valid():

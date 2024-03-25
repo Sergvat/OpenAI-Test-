@@ -15,7 +15,7 @@ class GenerateQuestionOutputSerializer(serializers.ModelSerializer):
 
 
 class RateCandidateAnswerInputSerializer(serializers.Serializer):
-    answer_id = serializers.IntegerField()
+    answer_text = serializers.CharField()
     question_id = serializers.IntegerField()
 
 
