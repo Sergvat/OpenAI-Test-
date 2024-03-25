@@ -1,12 +1,17 @@
-from openai import OpenAI
 import logging
 
+from api.models import Question, Vacancy
+from openai import OpenAI
+
 from question_generator.settings import openai_api_key
-from api.models import Vacancy, Question
 
 client = OpenAI(api_key=openai_api_key)
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s, %(levelname)s, %(name)s, %(message)s')
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s, %(levelname)s, %(name)s, %(message)s'
+)
+
 
 def generate_question(vacancy_id: int) -> str:
     """
@@ -18,8 +23,10 @@ def generate_question(vacancy_id: int) -> str:
         return 'Vacancy not found'
 
     message_system_content = "You are a helpful hr assistant."
-    message_user_content = (f"Сгенирируй вопрос кандидату от HR-специалиста для вакансии"
-                            f"{vacancy.name} с описанием {vacancy.description}")
+    message_user_content = (
+        f"Сгенирируй вопрос кандидату от HR-специалиста для вакансии"
+        f"{vacancy.name} с описанием {vacancy.description}"
+    )
 
     try:
         response = client.chat.completions.create(

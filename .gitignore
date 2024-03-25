@@ -142,3 +142,6 @@ GitHub.sublime-settings
 
 # Poetry
 poetry.lock
+
+#Flake8
+.flake8

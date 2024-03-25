@@ -1,12 +1,16 @@
-from openai import OpenAI
 import logging
 
+from api.models import Answer, Question, Result
+from openai import OpenAI
+
 from question_generator.settings import openai_api_key
-from api.models import Question, Answer, Result
 
 client = OpenAI(api_key=openai_api_key)
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s, %(levelname)s, %(name)s, %(message)s')
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s, %(levelname)s, %(name)s, %(message)s'
+)
 
 
 def rate_candidate_answer(answer_id: int, question_id: int) -> str:
@@ -25,8 +29,12 @@ def rate_candidate_answer(answer_id: int, question_id: int) -> str:
         return 'Question not found'
 
     message_system_content = "You are a helpful hr assistant."
-    message_user_content = (f"Оцени ответ кандидата: {answer.text} на вопрос: {question.text}"
-                            f"от HR-специалиста по 10-балльной шкале в формате оценка/10 (например 6/10)")
+    message_user_content = (
+        f"Оцени ответ кандидата: {answer.answer} на вопрос: {question.text}"
+        f"от HR-специалиста по 10-балльной шкале"
+        f"в формате оценка/10 (например 6/10),"
+        f"дай краткий ответ."
+    )
 
     try:
         response = client.chat.completions.create(
@@ -45,21 +53,21 @@ def rate_candidate_answer(answer_id: int, question_id: int) -> str:
     for choice in response.choices:
         if choice.message is not None:
             chat_response = choice.message.content
-            save_candidate_answer(chat_response, question_id)
+            save_answer_rating(chat_response, answer_id)
             return chat_response
 
     return 'No valid response found'
 
 
-def save_candidate_answer(answer: str, question_id: int) -> None:
-    """
-    Сохраняет ответ кандидата в базе данных.
-    """
-    try:
-        candidate_answer = Answer(text=answer, question_id=question_id)
-        candidate_answer.save()
-    except Exception as e:
-        logging.error(f'Error saving answer: {str(e)}')
+# def save_candidate_answer(answer: str, question_id: int) -> None:
+#     """
+#     Сохраняет ответ кандидата в базе данных.
+#     """
+#     try:
+#         candidate_answer = Answer(answer=answer, question_id=question_id)
+#         candidate_answer.save()
+#     except Exception as e:
+#         logging.error(f'Error saving answer: {str(e)}')
 
 
 def save_answer_rating(result: str, answer_id: int) -> None:
@@ -67,7 +75,10 @@ def save_answer_rating(result: str, answer_id: int) -> None:
     Сохраняет результат оценки ответа кандидата в базе данных.
     """
     try:
-        result_rating = Result(result=result, answer_id=answer_id)
+        answer = Answer.objects.get(id=answer_id)
+        result_rating = Result(result=result, answer=answer)
         result_rating.save()
+    except Answer.DoesNotExist:
+        logging.error(f'Vacancy with id {answer_id} does not exist')
     except Exception as e:
         logging.error(f'Error saving answer rating: {str(e)}')

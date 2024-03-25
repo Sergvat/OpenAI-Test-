@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Vacancy, Question, Answer, Result
+
+from .models import Answer, Question, Result, Vacancy
 
 
 @admin.register(Vacancy)
@@ -17,7 +18,7 @@ class QuestionAdmin(admin.ModelAdmin):
 @admin.register(Answer)
 class AnswerAdmin(admin.ModelAdmin):
     list_display = ('answer', 'question')
-    readonly_fields = ('answer', 'question')
+    search_fields = ('answer', 'question')
 
 
 @admin.register(Result)

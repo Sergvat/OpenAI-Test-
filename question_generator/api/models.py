@@ -20,5 +20,5 @@ class Answer(models.Model):
 
 
 class Result(models.Model):
-    result = models.CharField(max_length=100)
+    result = models.CharField(max_length=1000)
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
